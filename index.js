@@ -580,10 +580,16 @@ DailyRotateFile.prototype._getFile = function (inc) {
     // Check for maxFiles option and delete file
     if (this.maxFiles && (this._created >= (this.maxFiles - 1))) {
       remaining = this._created - (this.maxFiles - 1);
+
+      var filePath;
       if (remaining === 0) {
-        fs.unlinkSync(path.join(this.dirname, filename));
+        filePath = path.join(this.dirname, filename);
       } else {
-        fs.unlinkSync(path.join(this.dirname, filename + '.' + remaining));
+        filePath = path.join(this.dirname, filename + '.' + remaining);
+      }
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
     }
 
