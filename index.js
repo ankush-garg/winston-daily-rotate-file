@@ -589,7 +589,11 @@ DailyRotateFile.prototype._getFile = function (inc) {
       }
 
       if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+        try {
+          fs.unlinkSync(filePath);
+        } catch (e) {
+          console.error(e)
+        }
       }
     }
 
